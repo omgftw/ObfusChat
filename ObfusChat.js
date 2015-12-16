@@ -1,7 +1,7 @@
 obfusChat = (function () {
-    var vm = this;
-    vm.origRotArray = ["q", "w", "e", "r", "t", "y", "u", "i", "o", "p", "a", "s", "d", "f", "g", "h", "j", "k", "l", "z", "x", "c", "v", "b", "n", "m", ",", ".", "/", ";", "'", "[", "]", "\\", "=", "-", "1", "2", "3", "4", "5", "6", "7", "8", "9", "0", "'", "!", "@", "#", "$", "%", "^", "&", "*", "(", ")", "_", "+", "{", "}", "|", ":", "\"", "<", ">", "?", "`", "~", "Q", "W", "E", "R", "T", "Y", "U", "I", "O", "P", "A", "S", "D", "F", "G", "H", "J", "K", "L", "Z", "X", "C", "V", "B", "N", "M", " "];
-    vm.rotArray = ["q", "w", "e", "r", "t", "y", "u", "i", "o", "p", "a", "s", "d", "f", "g", "h", "j", "k", "l", "z", "x", "c", "v", "b", "n", "m", ",", ".", "/", ";", "'", "[", "]", "\\", "=", "-", "1", "2", "3", "4", "5", "6", "7", "8", "9", "0", "'", "!", "@", "#", "$", "%", "^", "&", "*", "(", ")", "_", "+", "{", "}", "|", ":", "\"", "<", ">", "?", "`", "~", "Q", "W", "E", "R", "T", "Y", "U", "I", "O", "P", "A", "S", "D", "F", "G", "H", "J", "K", "L", "Z", "X", "C", "V", "B", "N", "M", " "];
+    var vm = {};
+    vm.origRotArray = ["q", "w", "e", "r", "t", "y", "u", "i", "o", "p", "a", "s", "d", "f", "g", "h", "j", "k", "l", "z", "x", "c", "v", "b", "n", "m", ",", ".", "/", ";", "[", "]", "\\", "=", "-", "1", "2", "3", "4", "5", "6", "7", "8", "9", "0", "'", "!", "@", "#", "$", "%", "^", "&", "*", "(", ")", "_", "+", "{", "}", "|", ":", "\"", "<", ">", "?", "~", "Q", "W", "E", "R", "T", "Y", "U", "I", "O", "P", "A", "S", "D", "F", "G", "H", "J", "K", "L", "Z", "X", "C", "V", "B", "N", "M", " "] //"`" is excluding for even length;
+    vm.rotArray = vm.origRotArray.slice();
     vm.seed = 1;
 
     vm.rng = function (min, max) {
@@ -15,7 +15,7 @@ obfusChat = (function () {
         var output = [];
         var arr = input.slice();
         for (var i = arr.length; i > 0; i--) {
-            var remIndex = rng(0, i);
+            var remIndex = vm.rng(0, i);
             var removed = arr.splice(remIndex, 1);
             output.push(removed[0]);
         }
@@ -25,7 +25,7 @@ obfusChat = (function () {
 
     vm.setSeed = function (input) {
         vm.seed = input;
-        vm.rotArray = randomizeArray(vm.origRotArray);
+        vm.rotArray = vm.randomizeArray(vm.origRotArray);
     }
 
     vm.rotate = function (char, arr) {
@@ -43,20 +43,18 @@ obfusChat = (function () {
 
     vm.obfuscate = function (text, seed) {
         if (typeof seed !== "undefined") {
-            setSeed(seed);
+            vm.setSeed(seed);
         }
         var output = "";
         for (var i = 0; i < text.length; i++) {
-            output += rotate(text[i], vm.rotArray);
-            vm.rotArray = randomizeArray(vm.rotArray);
+            output += vm.rotate(text[i], vm.rotArray);
+            vm.rotArray = vm.randomizeArray(vm.rotArray);
         }
         return output;
     }
 
-    vm.deobfuscate = obfuscate;
-
     return {
-        obfuscate: obfuscate,
-        deobfuscate: deobfuscate,
+        obfuscate: vm.obfuscate,
+        deobfuscate: vm.deobfuscate
     };
 })();
