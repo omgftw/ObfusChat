@@ -2,7 +2,8 @@ obfusChat = (function () {
     var vm = {};
     vm.origRotArray = ["q", "w", "e", "r", "t", "y", "u", "i", "o", "p", "a", "s", "d", "f", "g", "h", "j", "k", "l", "z", "x", "c", "v", "b", "n", "m", ",", ".", "/", ";", "[", "]", "\\", "=", "-", "1", "2", "3", "4", "5", "6", "7", "8", "9", "0", "'", "!", "@", "#", "$", "%", "^", "&", "*", "(", ")", "_", "+", "{", "}", "|", ":", "\"", "<", ">", "?", "~", "Q", "W", "E", "R", "T", "Y", "U", "I", "O", "P", "A", "S", "D", "F", "G", "H", "J", "K", "L", "Z", "X", "C", "V", "B", "N", "M", " "] //"`" is excluding for even length;
     vm.rotArray = vm.origRotArray.slice();
-    vm.seed = 1;
+    vm.origSeed = 0;
+    vm.seed = 0;
 
     vm.rng = function (min, max) {
         var x = Math.sin(vm.seed++) * 10000;
@@ -43,8 +44,10 @@ obfusChat = (function () {
 
     vm.obfuscate = function (text, seed) {
         if (typeof text === "undefined" || text === null) return text;
-        if (typeof seed !== "undefined") {
+        if (typeof seed !== "undefined" && seed !== null && !isNaN(seed) && isFinite(seed)) {
             vm.setSeed(seed);
+        } else {
+            vm.setSeed(vm.origSeed);
         }
         var output = "";
         for (var i = 0; i < text.length; i++) {
