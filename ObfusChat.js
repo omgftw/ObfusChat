@@ -8,7 +8,7 @@ obfusChat = (function () {
         var x = Math.sin(vm.seed++) * 10000;
         var rand = x - Math.floor(x);
 
-        return Math.floor((rand * max) + min)
+        return Math.floor((rand * max) + min);
     }
 
     vm.randomizeArray = function (input) {
@@ -42,6 +42,7 @@ obfusChat = (function () {
     }
 
     vm.obfuscate = function (text, seed) {
+        if (typeof text === "undefined" || text === null) return text;
         if (typeof seed !== "undefined") {
             vm.setSeed(seed);
         }
