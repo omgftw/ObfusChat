@@ -59,6 +59,6 @@ obfusChat = (function () {
 
     return {
         obfuscate: vm.obfuscate,
-        deobfuscate: vm.deobfuscate
+        deobfuscate: vm.obfuscate
     };
 })();
