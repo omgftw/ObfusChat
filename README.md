@@ -7,7 +7,7 @@
 >>obfusChat.obfuscate(input, [seed])
 >
 >>deobfuscate: alias for obfuscate  
->>deobfusChat.obfuscate(input, [seed])
+>>obfusChat.deobfuscate(input, [seed])
 
 >Usage:  
 >>To obfuscate text:
